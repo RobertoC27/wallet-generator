@@ -1,0 +1,98 @@
+.button-container {
+    margin-top: 2rem;
+    padding-top: 0.5rem;
+}
+
+.generate-button {
+    background: #11CCA7;
+    border-radius: 8px;
+    padding-top: 0.6rem;
+    border: 1.6px solid white;
+    cursor: pointer;
+    margin: auto;
+    width: 250px;
+    height: 3rem;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3rem;
+    color: white;
+    box-shadow: 3px 3px 2px #00000034
+}
+
+
+.mnem-container {
+    background: #442AD4;
+    text-align: center;
+    font-size: 1.2rem;
+    color: white;
+    height: 50vh;
+    padding-top: 1rem;
+}
+
+.mnem-container div {
+    /* margin-bottom: 0.3rem; */
+    padding-top: 10vh;
+}
+
+.warning-container {
+    background: #634DDA;
+    height: 11vh;
+    padding: 2rem 0;
+}
+
+.warning-info {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.wallet-info-container {
+    text-align: center;
+}
+
+.info-container {
+    background: #442AD4;
+    height: 60vh;
+    overflow: hidden;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.info-container:first-of-type {
+    background: inherit;
+    padding-top: 1rem;
+}
+
+.info-container:last-of-type {
+    background: #200C90;
+}
+
+.hex-container {
+    padding: 0.5rem;
+}
+
+.info-container img {
+    height: 30vh;
+    width: 30vh;
+    margin: 1rem;
+}
+
+@media (min-width: 60rem) {
+    
+    .info-container {
+        display: inline-block;
+        
+        font-size: 1.3rem;
+        
+        /* border: 2px solid black; */
+        width: 100%;
+    }
+
+    .warning-container {
+        padding-top: 5rem;
+    }
+    
+    .generate-button:hover {
+        color: #11CCA7;
+        background: white;
+    }
+}
