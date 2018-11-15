@@ -78,6 +78,10 @@
 
 @media (min-width: 60rem) {
     
+    .warning-container {
+        padding-top: 5rem;
+    
+    }
     .info-container {
         display: inline-block;
         
@@ -85,11 +89,15 @@
         
         /* border: 2px solid black; */
         width: 100%;
+        padding-bottom: 2rem;
+        height: auto;
     }
 
-    .warning-container {
-        padding-top: 5rem;
+    .info-container img {
+        height: 13vw;
+        width: 13vw;
     }
+
     
     .generate-button:hover {
         color: #11CCA7;
