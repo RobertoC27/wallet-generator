@@ -17,11 +17,14 @@ class MnemonicGenerator extends Component {
         const mnem = bip39.generateMnemonic();
         const seed = bip39.mnemonicToSeed(mnem);
         const root = hdKey.fromMasterSeed(seed);
+        
         const generatedWallet = root.derivePath("m/44'/60'/0'/0/0");
         const pubKey = generatedWallet.getWallet().getChecksumAddressString();
         const privKey = generatedWallet.getWallet().getPrivateKeyString();
-        const base64PubKey = await QRCode.toDataURL(pubKey, { errorCorrectionLevel: 'H' });
-        const base64PrivKey = await QRCode.toDataURL(privKey, { errorCorrectionLevel: 'H' });
+        
+        let base64PubKey = await QRCode.toDataURL(pubKey, { errorCorrectionLevel: 'H' });
+        let base64PrivKey = await QRCode.toDataURL(privKey, { errorCorrectionLevel: 'H' });
+        // await Promise.all([base64PubKey, base64PrivKey])
 
         this.setState({
             created: true,
