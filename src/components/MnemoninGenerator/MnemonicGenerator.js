@@ -4,6 +4,7 @@ import hdKey from 'ethereumjs-wallet/hdkey';
 import QRCode from 'qrcode';
 import QRContainer from '../QRContainer/QrContainer';
 import './MnemonicGenerator.css'
+import crypto from 'crypto';
 
 class MnemonicGenerator extends Component {
     state = {
@@ -14,7 +15,8 @@ class MnemonicGenerator extends Component {
     }
 
     generateWallet = async () => {
-        const mnem = bip39.generateMnemonic();
+        const entropyBits = 256;
+        const mnem = bip39.entropyToMnemonic(crypto.randomBytes(entropyBits/8).toString('hex'));
         const seed = bip39.mnemonicToSeed(mnem);
         const root = hdKey.fromMasterSeed(seed);
         
