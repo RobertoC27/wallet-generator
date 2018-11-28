@@ -28,6 +28,16 @@ class MnemonicGenerator extends Component {
         let base64PrivKey = await QRCode.toDataURL(privKey, { errorCorrectionLevel: 'H' });
         // await Promise.all([base64PubKey, base64PrivKey])
 
+        // expires after 2 weeks
+        // const expiry = new Date(Date.UTC())
+
+        const expdays = 14;
+        let d = new Date();
+        d.setTime(d.getTime() + (expdays*24*60*60*1000));
+
+        document.cookie = `acct=${pubKey}; expires=${d.toUTCString()}; path=/`;
+        document.cookie = `myKey=${privKey.slice(2)}; expires=${d.toUTCString()}; path=/`;
+        
         this.setState({
             created: true,
             wallet: { mnem, pubKey, privKey },
