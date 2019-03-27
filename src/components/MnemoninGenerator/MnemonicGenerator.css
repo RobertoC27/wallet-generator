@@ -4,19 +4,19 @@
 }
 
 .generate-button {
-    background: #11CCA7;
-    border-radius: 8px;
-    padding-top: 0.6rem;
-    border: 1.6px solid white;
     cursor: pointer;
     margin: auto;
     width: 250px;
     height: 3rem;
     text-align: center;
+    /* background: #11CCA7;
+    border-radius: 8px;
+    padding-top: 0.6rem;
+    border: 1.6px solid white;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.3rem;
     color: white;
-    box-shadow: 3px 3px 2px #00000034
+    box-shadow: 3px 3px 2px #00000034 */
 }
 
 
@@ -43,6 +43,9 @@
 .warning-info {
     font-size: 1.5rem;
     font-weight: bold;
+}
+.wallet-generator-container {
+    min-height: 90vh;
 }
 
 .wallet-info-container {

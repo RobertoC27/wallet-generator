@@ -3,11 +3,14 @@ import bip39 from 'bip39';
 import hdKey from 'ethereumjs-wallet/hdkey';
 import QRCode from 'qrcode';
 import QRContainer from '../QRContainer/QrContainer';
+import Swal from 'sweetalert2';
+
 import './MnemonicGenerator.css'
 import crypto from 'crypto';
 import pubKeyImg from '../../theme_styles/img/cmdr-shane-610506-unsplash.jpg';
 import mnemImg from '../../theme_styles/img/amador-loureiro-779-unsplash.jpg';
 import privKeyImg from '../../theme_styles/img/jon-moore-399469-unsplash.jpg';
+import saveImg from '../../theme_styles/img/icons/icon35.svg'
 class MnemonicGenerator extends Component {
     state = {
         created: false,
@@ -17,6 +20,7 @@ class MnemonicGenerator extends Component {
     }
 
     generateWallet = async () => {
+        
         const entropyBits = 256;
         const mnem = bip39.entropyToMnemonic(crypto.randomBytes(entropyBits / 8).toString('hex'));
         const seed = bip39.mnemonicToSeed(mnem);
@@ -47,6 +51,11 @@ class MnemonicGenerator extends Component {
             base64PrivKey
         })
 
+        Swal.fire(
+            'Your new wallet was created!',
+            'Go ahead an check out it\'s info',
+            'success'
+          )
     }
 
     render() {
@@ -55,6 +64,15 @@ class MnemonicGenerator extends Component {
             walletInfo = (
                 <div>
                     <div className="container col-md-9 col-lg-8 mt-4">
+                        <div className="text-center card d-flex justify-content-between col-md-auto">
+                            <img src={saveImg} alt="Modular Structure" class="icon" />
+                            <div>
+                                <h5 className="mb-1 mt-2">Save your wallet details</h5>
+                                <p>Save your Public Key, Mnemonic and Private Key to a text file that you can easily find.</p>
+                                <p><strong>Normally you wouldn't store your private key in plain text file</strong>, but since this wallet holds no real world assets. It's okay for this exercise.</p>
+                                
+                            </div>
+                        </div>
                         <ul className="list-group">
                             <li className="list-group-item">
                                 <div className="d-flex justify-content-between align-items-center">
@@ -101,19 +119,27 @@ class MnemonicGenerator extends Component {
                                 </div>
                             </li>
                         </ul>
+
+                        <div class="progress my-2">
+                            <div class="progress-bar bg-primary" role="progressbar" style={{ "width": "25%" }} aria-valuenow="25" aria-valuemin="10" aria-valuemax="100"></div>
+                        </div>
                     </div>
                     <div className="wallet-info-container">
-                        
+
+
                     </div>
                 </div>
             );
         }
         return (
             <div className="wallet-generator-container">
-                <div className="button-container">
-                    <div className="generate-button" onClick={this.generateWallet}>Generate new Wallet</div>
+                <div className="button-container text-center">
+                    <div className="generate-button btn btn-light m-1" onClick={this.generateWallet}>Generate new Wallet</div>
                 </div>
                 {walletInfo}
+                <div className="button-container text-center">
+                    <div className="generate-button btn btn-light m-1" onClick={this.generateWallet}>Generate new Wallet</div>
+                </div>
             </div>
         )
     }
