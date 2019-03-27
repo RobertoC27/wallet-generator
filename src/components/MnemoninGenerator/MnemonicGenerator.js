@@ -5,7 +5,9 @@ import QRCode from 'qrcode';
 import QRContainer from '../QRContainer/QrContainer';
 import './MnemonicGenerator.css'
 import crypto from 'crypto';
-
+import pubKeyImg from '../../theme_styles/img/cmdr-shane-610506-unsplash.jpg';
+import mnemImg from '../../theme_styles/img/amador-loureiro-779-unsplash.jpg';
+import privKeyImg from '../../theme_styles/img/jon-moore-399469-unsplash.jpg';
 class MnemonicGenerator extends Component {
     state = {
         created: false,
@@ -16,14 +18,14 @@ class MnemonicGenerator extends Component {
 
     generateWallet = async () => {
         const entropyBits = 256;
-        const mnem = bip39.entropyToMnemonic(crypto.randomBytes(entropyBits/8).toString('hex'));
+        const mnem = bip39.entropyToMnemonic(crypto.randomBytes(entropyBits / 8).toString('hex'));
         const seed = bip39.mnemonicToSeed(mnem);
         const root = hdKey.fromMasterSeed(seed);
-        
+
         const generatedWallet = root.derivePath("m/44'/60'/0'/0/0");
         const pubKey = generatedWallet.getWallet().getChecksumAddressString();
         const privKey = generatedWallet.getWallet().getPrivateKeyString();
-        
+
         let base64PubKey = await QRCode.toDataURL(pubKey, { errorCorrectionLevel: 'H' });
         let base64PrivKey = await QRCode.toDataURL(privKey, { errorCorrectionLevel: 'H' });
         // await Promise.all([base64PubKey, base64PrivKey])
@@ -33,11 +35,11 @@ class MnemonicGenerator extends Component {
 
         const expdays = 14;
         let d = new Date();
-        d.setTime(d.getTime() + (expdays*24*60*60*1000));
+        d.setTime(d.getTime() + (expdays * 24 * 60 * 60 * 1000));
 
         document.cookie = `acct=${pubKey}; expires=${d.toUTCString()}; path=/`;
         document.cookie = `myKey=${privKey.slice(2)}; expires=${d.toUTCString()}; path=/`;
-        
+
         this.setState({
             created: true,
             wallet: { mnem, pubKey, privKey },
@@ -52,24 +54,56 @@ class MnemonicGenerator extends Component {
         if (this.state.created) {
             walletInfo = (
                 <div>
+                    <div className="container col-md-9 col-lg-8 mt-4">
+                        <ul className="list-group">
+                            <li className="list-group-item">
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <a className="d-flex align-items-center flex-fill" href="#" data-toggle="collapse" data-target="#accordion-panel-1">
+                                        <span className="col-4"><img src={pubKeyImg} alt="Public Key" className="rounded" /></span>
+                                        <span className="mb-0 text-primary py-1 font-weight-bold">Your public key</span>
+                                    </a>
+                                    <i className="material-icons d-block text-dark">keyboard_arrow_right</i>
+                                </div>
+                                <small style={{ "fontSize": "8px" }}>Photo by CMDR Shane on Unsplash</small>
+                                <div id="accordion-panel-1" className="collapse">
+                                    <div className="py-1"><strong> This, you can share with the world.</strong> Whenever someone sends you funds, this is the data they need.</div>
+                                    <div className="hex-container">{this.state.wallet.pubKey}</div>
+                                    <QRContainer base64={this.state.base64PubKey} />
+                                </div>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <a className="d-flex align-items-center flex-fill" href="#" data-toggle="collapse" data-target="#accordion-panel-2">
+                                        <span className="col-4"><img src={mnemImg} alt="Mnemonic" className="rounded" /></span>
+                                        <span className="mb-0 text-primary py-1 font-weight-bold">Your mnemonic</span>
+                                    </a>
+                                    <i className="material-icons d-block text-dark">keyboard_arrow_right</i>
+                                </div>
+                                <small style={{ "fontSize": "8px" }}>Photo by Amador Loureiro on Unsplash</small>
+                                <div id="accordion-panel-2" className="collapse">
+                                    <div className="py-1"><strong> This, you don't want to share. Your account can be recreated using this 12 words.</strong></div>
+                                    <div className="py-1">{this.state.wallet.mnem}</div>
+                                </div>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <a className="d-flex align-items-center flex-fill" href="#" data-toggle="collapse" data-target="#accordion-panel-3">
+                                        <span className="col-4"><img src={privKeyImg} alt="Private Key" className="rounded" /></span>
+                                        <span className="mb-0 text-primary py-1 font-weight-bold">Your private key</span>
+                                    </a>
+                                    <i className="material-icons d-block text-dark">keyboard_arrow_right</i>
+                                </div>
+                                <small style={{ "fontSize": "8px" }}>Photo by Jon Moore on Unsplash</small>
+                                <div id="accordion-panel-3" className="collapse">
+                                    <div className="py-1"><strong>This, you absolutely do not want to share with anyone!</strong> If someone gets a hold on this, they can still your funds.</div>
+                                    <div className="hex-container">{this.state.wallet.privKey}</div>
+                                    <QRContainer base64={this.state.base64PrivKey} />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div className="wallet-info-container">
-                        <div className="info-container">
-                            <h4>Wallet Address</h4>
-                            <div className="hex-container">{this.state.wallet.pubKey}</div>
-                            <QRContainer base64={this.state.base64PubKey} />
-                        </div>
-                        <div className="warning-container">
-                            <div className="warning-info">Don't share your mnemonic or private key with anyone</div>
-                        </div>
-                        <div className="mnem-container">
-                            <h4>12 word mnemonic seed</h4>
-                            <div>{this.state.wallet.mnem}</div>
-                        </div>
-                        <div className="info-container">
-                            <h4>Private Key</h4>
-                            <div className="hex-container">{this.state.wallet.privKey}</div>
-                            <QRContainer base64={this.state.base64PrivKey} />
-                        </div>
+                        
                     </div>
                 </div>
             );
