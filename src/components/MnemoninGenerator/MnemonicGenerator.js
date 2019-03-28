@@ -137,9 +137,6 @@ class MnemonicGenerator extends Component {
                     <div className="generate-button btn btn-light m-1" onClick={this.generateWallet}>Generate new Wallet</div>
                 </div>
                 {walletInfo}
-                <div className="button-container text-center">
-                    <div className="generate-button btn btn-light m-1" onClick={this.generateWallet}>Generate new Wallet</div>
-                </div>
             </div>
         )
     }
